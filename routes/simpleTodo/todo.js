@@ -33,8 +33,50 @@ Router.post(
 
 Router.get("/", async (req, res) => {
   try {
-    const todos = await Post.find().sort({ date: -1 });
+    const todos = await Todo.find().sort({ date: -1 });
     res.json(todos);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+Router.put(
+  "/:id",
+  [check("text", "Text is required").not().isEmpty()],
+  async (req, res) => {
+    try {
+      const todo = await Todo.findOneAndUpdate(
+        { id: req.params.id },
+        {
+          text: req.body.text,
+        },
+        { new: true }
+      );
+
+      if (!todo) {
+        return res.status(404).json({ msg: "Todo not found" });
+      }
+
+      res.status(201).json(todo);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+Router.delete("/:id", async (req, res) => {
+  try {
+    const deletedTodo = await Todo.findOneAndRemove({ id: req.params.id });
+
+    if (!deletedTodo) {
+      res.status(404).json({ msg: "Todo not found" });
+    }
+
+    res
+      .status(201)
+      .json({ msg: "Todo deleted successfully", deletedTodo: deletedTodo });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
