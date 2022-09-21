@@ -2,7 +2,7 @@
 
 const express = require("express");
 const Router = express.Router();
-const LocalTodo = require("../../models/simpleTodo/LocalTodo");
+const LocalTodo = require("../../../models/componentIdeas/simpleTodo/LocalTodo");
 
 const todos = [];
 

@@ -3,7 +3,7 @@ const Router = express.Router();
 const { check, validationResult } = require("express-validator/check");
 const { v4: uuidv4 } = require("uuid");
 
-const Todo = require("../../models/simpleTodo/Todo");
+const Todo = require("../../../models/componentIdeas/simpleTodo/Todo");
 
 Router.post(
   "/",
